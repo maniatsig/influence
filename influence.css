@@ -1,0 +1,142 @@
+@font-face {
+    font-family: Font;
+    src: url("assets/OpenSans-Regular.ttf");
+} 
+ 
+body{
+	max-width: 800px;
+	font-family: Font, sans-serif;
+	margin: 0 auto;
+	background-color: #E6FFF2;	
+}
+
+ h4{
+	margin: 0 auto;
+	text-align: center;
+}
+
+input{
+	display: block;
+	width: 100%;
+    padding: 12px 20px;
+    margin-top: 3%;
+    box-sizing: border-box;
+	text-align: center;
+ }
+
+fieldset {
+    border: 0;
+}
+
+main{
+	margin: 0 auto;
+	width:100%;
+}
+
+label{
+	display: block;
+	font-weight: bold;
+	margin-top: 5%;
+	text-align: center;
+}
+ 
+button{
+	width: 100%;
+	padding: 10px;
+	font-weight: bold;
+	background-color: #7DA3A1;
+}
+
+fieldset  button{
+	margin-top: 10%;
+}
+
+.title{
+	margin: 0;
+	padding: 5px;
+    background-color: #34675C;
+    display: flex;
+    justify-content: center;
+    font-size: 38px;
+	font-weight: bold;
+	color: white;
+}
+
+.navigation ul{
+	
+	padding-left: 0px;
+	margin-top: 2px;
+	margin-bottom: 1px;
+	list-style: none;
+	justify-content: center;
+    background-color: #86AC41;
+    display: flex;
+    justify-content: space-around;
+    font-size: 18px;
+	text-align: center;
+}
+
+.navigation ul li{
+	width:100%;
+}
+
+.navigation a:hover {
+    background-color: #7DA5C1;
+	
+}
+
+.selected{
+	 background-color: #7DA3A1;
+	 position: relative ;
+}
+
+.navigation a {
+    text-decoration: none;
+	color: white;
+	display: block;
+	padding: 1em;
+}
+
+.content {
+    margin-bottom: 5%;
+}
+
+.content > * {
+    padding: 10px;    
+}
+
+#columnchart{
+	height:500px;
+}
+
+@media all and (max-width: 600px) {
+    .navigation ul {
+        flex-direction: column;
+        flex-wrap: wrap;
+		text-align:center;
+        padding: 0;
+		font-size: 20px;
+		
+		
+	}
+	
+	.navigation li a{
+		padding: 0;
+	}
+	
+	.navigation li{
+		outline: 1px solid black;
+		padding-top: 3px;
+		padding-bottom: 3px;
+		
+	}
+
+	.title{
+		font-size: 30px;
+	}
+	
+	#columnchart{
+		height:300px;
+}
+    
+}

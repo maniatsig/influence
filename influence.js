@@ -235,8 +235,8 @@ function LoadData()
 	}
 }
 
-//function to show i-nfluence info
-function show_info()
+//function to reset to defaults
+function reset_def()
 {
 	window.localStorage.clear();
 

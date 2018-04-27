@@ -48,7 +48,7 @@ button{
 }
 
 fieldset  button{
-	margin-top: 10%;
+	margin-top: 5%;
 }
 
 .title{
@@ -105,8 +105,12 @@ fieldset  button{
     padding: 10px;    
 }
 
-#columnchart{
+#geochart{
 	height:500px;
+}
+
+#rst{
+	color: white;
 }
 
 @media all and (max-width: 600px) {

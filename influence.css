@@ -104,6 +104,7 @@ fieldset  button{
 .content > * {
     padding: 10px;    
 }
+
 .accordion {
     background-color: #eee;
     color: #444;
@@ -129,7 +130,7 @@ fieldset  button{
 }
 
 #geochart{
-	height:500px;
+	height:auto;
 }
 
 #rst{
@@ -161,9 +162,4 @@ fieldset  button{
 	.title{
 		font-size: 30px;
 	}
-	
-	#geochart{
-		height:300px;
-}
-    
 }

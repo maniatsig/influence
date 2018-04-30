@@ -109,7 +109,8 @@ function DrawGeoChart()
 		var queryString_user_data = encodeURIComponent('SELECT A, B, C OFFSET 6');
 		var query_user_data = new google.visualization.Query(url+"/gviz/tq?sheet=Sheet1&headers=0&tq=" + queryString_user_data);
 
-		//sends the query to handleUserQueryResponse function
+		//sends the query to handleUserQueryResponse function - if there is an error, it stops after 10 seconds
+		query_user_data.setTimeout(10);
 		query_user_data.send(handleUserQueryResponse);
 		
 		function handleUserQueryResponse(response)
@@ -117,7 +118,7 @@ function DrawGeoChart()
 			//check for error
 			if (response.isError() || response.hasWarning())
 			{
-				document.getElementById('geochart').innerHTML = "Error in query: " + response.getMessage() + "  " + response.getDetailedMessage();
+				document.getElementById('geochart').innerHTML = "Error in query: " + response.getMessage() + "  " + response.getDetailedMessage() + " - Please check your Spreadsheet Url.";
 				return;
 			}
 			
@@ -132,7 +133,8 @@ function DrawGeoChart()
 			var queryString_population_data = encodeURIComponent('SELECT B, C, D OFFSET 1');
 			var query_population_data = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1L6EpPIFE4raJnTEKfKmJiAfU9TrSO6LSMgBBJ_Y30og/edit?usp=sharing"+"/gviz/tq?sheet=Sheet1&headers=0&tq=" + queryString_population_data);
 			
-			//sends the query to handlePopulationQueryResponse function
+			//sends the query to handlePopulationQueryResponse function - if there is an error, it stops after 10 seconds
+			query_population_data.setTimeout(10);
 			query_population_data.send(handlePopulationQueryResponse);
 			
 			
@@ -141,67 +143,76 @@ function DrawGeoChart()
 				//check for error
 				if (response.isError() || response.hasWarning())
 				{
-					document.getElementById('geochart').innerHTML = "Error in query: " + response.getMessage() + "  " + response.getDetailedMessage();
+					document.getElementById('geochart').innerHTML = "Error in query: " + response.getMessage() + "  " + response.getDetailedMessage() + " - Please check the Population Spreadsheet.";
 					return;
 				}
 				//gets the data after response and stores them to population_data datatable
 				var population_data = response.getDataTable();
 				
-				//a new datatable after inner join the datatables user_data and population_data on city id
-				var joinedData = google.visualization.data.join(population_data, user_data, 'inner', [[1, 1]],[0,2], [2]);
-				
-				//sets column labels to joinedData table			
-				joinedData.setColumnLabel(0, 'ID');
-				joinedData.setColumnLabel(1, 'Name');
-				joinedData.setColumnLabel(2, 'Population');
-				joinedData.setColumnLabel(3, 'Visitors');
-				
-				
-				//adds one more column to calculate influence (%)
-				joinedData.addColumn('number', 'Influence(%)');					
-				
-				var lastrow = joinedData.getNumberOfRows();
-				var i = 0;
-				var region_influence;
-				
-				//gets values from joinedData table, calculates the Influence (%) column for each row and sets this value to influence column per row
-				for(i=0;i<lastrow;i++)
+				//try to show data if there is no error with join
+				try
 				{
+					//a new datatable after inner join the datatables user_data and population_data on city id
+					var joinedData = google.visualization.data.join(population_data, user_data, 'inner', [[1, 1]],[0,2], [2]);
 					
-						region_influence = (joinedData.getValue(i,3) / joinedData.getValue(i,2)) *100 ;
-						joinedData.setCell(i,4, region_influence);
+					//sets column labels to joinedData table			
+					joinedData.setColumnLabel(0, 'ID');
+					joinedData.setColumnLabel(1, 'Name');
+					joinedData.setColumnLabel(2, 'Population');
+					joinedData.setColumnLabel(3, 'Visitors');
 					
-				}
-				
-				//var chart2 = new google.visualization.Table(document.getElementById('columnchart2'));
-				//chart2.draw(joinedData, null);
-				
-				//removes the id and population column to create the final datatable for geochart
-				joinedData.removeColumn(0);
-				joinedData.removeColumn(1);
+					//err = new google.visualization.errors.addError(document.getElementById("geochart"), "xxx");
+					
+					//adds one more column to calculate influence (%)
+					joinedData.addColumn('number', 'Influence(%)');					
+					
+					var lastrow = joinedData.getNumberOfRows();
+					var i = 0;
+					var region_influence;
+					
+					//gets values from joinedData table, calculates the Influence (%) column for each row and sets this value to influence column per row
+					for(i=0;i<lastrow;i++)
+					{
 						
-				
-				//options for GeoChart
-				var geo_options = {
+							region_influence = (joinedData.getValue(i,3) / joinedData.getValue(i,2)) *100 ;
+							joinedData.setCell(i,4, region_influence);
+						
+					}
 					
-				region: 'GR',
-				displayMode: 'markers',
-				colorAxis: {colors: ['green', 'blue']},
-				legend: {textStyle: {color: 'blue', fontSize: 16}}
-				
-				};
-				
-				//draw GeoChart
-				var chart = new google.visualization.GeoChart(document.getElementById('geochart'));
-				chart.draw(joinedData, geo_options);
-
+					//var chart2 = new google.visualization.Table(document.getElementById('columnchart2'));
+					//chart2.draw(joinedData, null);
+					
+					//removes the id and population column to create the final datatable for geochart
+					joinedData.removeColumn(0);
+					joinedData.removeColumn(1);
+							
+					
+					//options for GeoChart
+					var geo_options = {
+						
+						region: 'GR',
+						displayMode: 'markers',
+						colorAxis: {colors: ['green', 'blue']},
+						legend: {textStyle: {color: 'blue', fontSize: 16}}
+					
+					};
+					
+					//draw GeoChart
+					var chart = new google.visualization.GeoChart(document.getElementById("geochart"));
+					chart.draw(joinedData, geo_options);
+				}
+				//show the error
+				catch(err)
+				{
+					document.getElementById("geochart").innerHTML = "Please check your Spreadsheet Url.</br>" + err + "</br>Your Google Spredsheet must be something like <a href = \"https://docs.google.com/spreadsheets/d/1mg4YSuqTMJDl1ZoD1wF7VOJPuV24svWs3CgyPEJf3Ng/edit?usp=sharing\" target = \"_blank\"> this.</a>";
+				}
 			}		
 		}		
 	}
 
 }
 
-//function to check if url is valid
+//function to check if url is Google Spreadsheet
 function checkUrl(given_url) {
 	  
 	  if(given_url.match("https://docs.google.com/spreadsheets/"))
@@ -215,18 +226,17 @@ function checkUrl(given_url) {
 }
 
 
-
 //lets the user set his own data
 function LoadData()	
 {
-	//takes the url and description from form
+	//takes the url and description from form and checks if url is Google Spreadsheet by using checkUrl function
 	if(checkUrl(document.forms["UserData"].users_url.value))
 	{
 		window.localStorage.setItem("user_url", document.forms["UserData"].users_url.value);
 		window.localStorage.setItem("user_description", document.forms["UserData"].descr.value);
 		document.getElementById("UserData").reset();
 		document.getElementById("url_label").style.color='black';
-		show_content("geoinfluence");
+		location.reload();
 	}
 	else
 	{
@@ -239,10 +249,11 @@ function LoadData()
 function reset_def()
 {
 	window.localStorage.clear();
-	show_content("geoinfluence");
+	location.reload();
 
 }
 
+//shows information menu as accordion
 var acc = document.getElementsByClassName("accordion");
 var i;
 

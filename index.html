@@ -31,16 +31,28 @@
 			</div>
 			
 			<div class="content" id="data">
-					<form id ="UserData">
-						<fieldset>
-							<label id="url_label">Insert your shared Google Spreadsheet URL:</label>
-							<input name="users_url" type="url" required pattern="https://docs\.google\.com\/(.+)" title="The URL must be a shared Google Spreadsheet">
-							<label>Give a description:</label>					
-							<input name="descr" type="string" title="Give a simple description for your project">
-							<button type="button" onclick=LoadData()>Submit</button>
+					
+					<button class="accordion">I want to insert my own data</button>
+					<div class="panel">
+						<form id ="UserData">
+							<fieldset>
+								<label id="url_label">Insert your shared Google Spreadsheet URL:</label>
+								<input name="users_url" type="url" required pattern="https://docs\.google\.com\/(.+)" title="The URL must be a shared Google Spreadsheet">
+								<label>Give a description:</label>					
+								<input name="descr" type="string" title="Give a simple description for your project">
+								<button type="button" onclick=LoadData()>Submit</button>
+								
+							</fieldset>			
+						</form>
+					</div>	
+					
+					<button class="accordion">I want to reset the GeoChart to Demo Version</button>
+						<div class="panel">
+							<label>Please press the button to RESET.</label>
+							</br>
 							<button id = "rst" type="button" onclick=reset_def()>Reset Defaults</button>
-						</fieldset>			
-					</form>
+							</br></br></br>
+						</div>	
 			</div>
 			
 			<div class="content" id="information">
@@ -55,7 +67,7 @@
 					<button class="accordion">How it works?</button>
 					<div class="panel">
 						<p>This tool divides the number of visitors for each city or region with population and gives a percentage of website's awareness.
-						</br>Notice: This tool works only if a website has greek audience.
+						</br><u>Notice:</u> This tool works only if a website has greek audience and the Demographics in GA are enabled.
 						</p>
 					</div>
 
@@ -64,12 +76,12 @@
 						<p>
 							In order to use this tool with your own GA data you need to:
 							<ol>
-								<li>Load to your Google Analytics the Custom Report <a href = "https://analytics.google.com/analytics/web/template?uid=5b5DhapdTaCSfkSSDxXrtA" target = "_blank"> Users per city</a></li>
+								<li>Load the Custom Report <a href = "https://analytics.google.com/analytics/web/template?uid=5b5DhapdTaCSfkSSDxXrtA" target = "_blank"> Users per city</a> to your Google Analytics.</li>
 								<li>Set the time period you want to check (a whole year is recommended).</li>
-								<li>Add as asecondary attribute the City Identifier (under Users).</li>
+								<li>Add as secondary attribute the City Identifier (under Users).</li>
 								<li>Export the report to Google Spreadsheet.</li>
 								<li>Share the spreadsheet and copy the shared link.</li>
-								<li>Select the "Load Data" menu of the tool and paste the link.</li>
+								<li>Select the "Load Data" menu of the tool, choose the section "I want to insert my own data" and paste your link.</li>
 							</ol>	
 						</p>
 					</div>					

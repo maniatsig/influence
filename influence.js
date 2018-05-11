@@ -193,7 +193,7 @@ function DrawGeoChart()
 						region: 'GR',
 						displayMode: 'markers',
 						colorAxis: {colors: ['green', 'blue']},
-						legend: {textStyle: {color: 'blue', fontSize: 16}}
+						legend: {textStyle: {color: 'green', fontSize: 16}}
 					
 					};
 					

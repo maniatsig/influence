@@ -46,7 +46,6 @@ function show_content(selection)
 		hide("chart");
 		show("data");
 		hide("information");
-		//LoadData();
 	}
 	else
 	{
@@ -93,8 +92,6 @@ function SetUrl()
 function DrawGeoChart()
 {					
 	//loads packages from google
-	google.charts.load('current', {'packages':['corechart']});
-	google.charts.load('current', { 'packages': ['table'] });
 	google.charts.load('current', {'packages': ['geochart'],'mapsApiKey': 'AIzaSyDFVVh5a6FcVa_Tm17LLeM8Ce3sinSpjo8'});
 	
 	//calls drawCharts fuction to get the data and draw the charts
@@ -157,11 +154,9 @@ function DrawGeoChart()
 					
 					//sets column labels to joinedData table			
 					joinedData.setColumnLabel(0, 'ID');
-					joinedData.setColumnLabel(1, 'Name');
-					joinedData.setColumnLabel(2, 'Population');
+					joinedData.setColumnLabel(1, 'Population');
+					joinedData.setColumnLabel(2, 'Name');
 					joinedData.setColumnLabel(3, 'Visitors');
-					
-					//err = new google.visualization.errors.addError(document.getElementById("geochart"), "xxx");
 					
 					//adds one more column to calculate influence (%)
 					joinedData.addColumn('number', 'Influence(%)');					
@@ -179,9 +174,6 @@ function DrawGeoChart()
 						
 					}
 					
-					//var chart2 = new google.visualization.Table(document.getElementById('columnchart2'));
-					//chart2.draw(joinedData, null);
-					
 					//removes the id and population column to create the final datatable for geochart
 					joinedData.removeColumn(0);
 					joinedData.removeColumn(1);
@@ -197,7 +189,7 @@ function DrawGeoChart()
 					
 					};
 					
-					//draw GeoChart
+					//draws GeoChart
 					var chart = new google.visualization.GeoChart(document.getElementById("geochart"));
 					chart.draw(joinedData, geo_options);
 				}
